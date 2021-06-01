@@ -1,6 +1,8 @@
 package com.lagou;
 
+import com.lagou.domain.Order;
 import com.lagou.domain.User;
+import com.lagou.mapper.OrderMapper;
 import com.lagou.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -59,10 +61,19 @@ public class Test {
         System.out.println(user2);*/
 
         //动态sql循环拼接
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        /*UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         //List<Integer> ids = IntStream.range(1, 10).boxed().collect(Collectors.toList());
         List<Integer> ids = Stream.of(1, 2, 3, 4, 5).collect(Collectors.toList());
         List<User> userList = userMapper.findByIds(ids);
-        System.out.println(userList);
+        System.out.println(userList);*/
+        //一对一映射查询
+        /*OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+        List<Order> all = orderMapper.findAll();
+        all.forEach(System.out::println);*/
+
+        //一对多查询
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        List<User> all = mapper.findAll();
+        all.forEach(System.out::println);
     }
 }

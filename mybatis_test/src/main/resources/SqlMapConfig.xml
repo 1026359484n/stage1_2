@@ -23,5 +23,6 @@
 
     <mappers>
         <mapper resource="com/lagou/mapper/UserMapper.xml"/>
+        <mapper resource="com/lagou/mapper/OrderMapper.xml"/>
     </mappers>
 </configuration>

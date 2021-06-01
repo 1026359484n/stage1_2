@@ -1,12 +1,22 @@
 package com.lagou.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class User {
     private Integer id;
     private String username;
     private String password;
     private LocalDateTime birthday;
+    private List<Order> orderList;
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
 
     public LocalDateTime getBirthday() {
         return birthday;
@@ -23,6 +33,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", birthday=" + birthday +
+                ", orderList=" + orderList +
                 '}';
     }
 

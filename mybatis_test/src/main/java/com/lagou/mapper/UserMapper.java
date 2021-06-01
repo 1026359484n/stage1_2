@@ -11,4 +11,5 @@ public interface UserMapper {
     User findById(Integer id);
     User findByCondition(User user);
     List<User> findByIds(List<Integer> ids);
+    List<User> findAll();
 }

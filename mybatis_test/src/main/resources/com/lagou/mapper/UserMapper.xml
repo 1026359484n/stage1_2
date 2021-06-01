@@ -3,6 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lagou.mapper.UserMapper">
+    <resultMap id="userMap" type="com.lagou.domain.User">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="birthday" property="birthday"/>
+        <collection property="orderList" ofType="com.lagou.domain.Order">
+            <result column="o.id" property="id"/>
+            <result column="order_time" property="orderTime"/>
+            <result column="total" property="total"/>
+        </collection>
+    </resultMap>
     <sql id="selectUser">
         select 
         id `id`,
@@ -19,9 +30,9 @@
     <delete id="delete" parameterType="java.lang.Integer">
         delete from user where id=#{id}
     </delete>
-    <select id="findAll" resultType="com.lagou.domain.User">
+    <!--<select id="findAll" resultType="com.lagou.domain.User">
         select * from user
-    </select>
+    </select>-->
     <select id="findById" parameterType="java.lang.Integer" resultType="com.lagou.domain.User">
         select * from user where id = #{id}
     </select>
@@ -44,6 +55,10 @@
                 #{id}
             </foreach>
         </where>
+    </select>
+
+    <select id="findAll" resultMap="userMap">
+        select *,o.id `o.id` from user u left join `order` o on u.id=o.uid
     </select>
 
 </mapper>

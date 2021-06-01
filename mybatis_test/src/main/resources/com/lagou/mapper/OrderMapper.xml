@@ -14,4 +14,7 @@
             <result column="birthday" property="birthday"/>
         </association>
     </resultMap>
+    <select id="findAll" resultMap="orderMap">
+        select * from `order` o,user u where o.uid=u.id
+    </select>
 </mapper>
