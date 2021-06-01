@@ -1,9 +1,10 @@
 package com.lagou.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     private Integer id;
     private String username;
     private String password;

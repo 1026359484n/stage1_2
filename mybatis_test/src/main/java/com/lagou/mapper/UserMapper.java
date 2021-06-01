@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+@CacheNamespace(blocking = true)
 public interface UserMapper {
     int insert(User user);
     int update(User user);
@@ -26,6 +27,7 @@ public interface UserMapper {
     @Select("select * from user")
     List<User> findAllAnnotation();
     @Select("select * from user")
+    @Options(useCache = true)
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "username", column = "username"),

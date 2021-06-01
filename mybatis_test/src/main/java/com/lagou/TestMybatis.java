@@ -22,17 +22,56 @@ import java.util.stream.Stream;
 public class TestMybatis {
     private UserMapper userMapper;
     private OrderMapper orderMapper;
+    private SqlSessionFactory sqlSessionFactory;
 
     @Before
     public void before() throws IOException {
         InputStream resourceAsStream =
                 Resources.getResourceAsStream("SqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new
+        sqlSessionFactory = new
                 SqlSessionFactoryBuilder().build(resourceAsStream);
         //根据sqlSessionFactory产生session
         SqlSession sqlSession = sqlSessionFactory.openSession(true);
         userMapper = sqlSession.getMapper(UserMapper.class);
         orderMapper = sqlSession.getMapper(OrderMapper.class);
+    }
+    @Test
+    public void testTwoCacheAfterCommit(){
+        //根据 sqlSessionFactory 产生 session
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        SqlSession sqlSession2 = sqlSessionFactory.openSession();
+        SqlSession sqlSession3 = sqlSessionFactory.openSession();
+        UserMapper userMapper1 = sqlSession1.getMapper(UserMapper.class);
+        UserMapper userMapper2 = sqlSession2.getMapper(UserMapper.class);
+        UserMapper userMapper3 = sqlSession2.getMapper(UserMapper.class);
+        // 第一次查询， 发出sql语句， 并将查询的结果放入缓存中
+        User u1 = userMapper1.findByIdAnnotation(1);
+        System.out.println(u1);
+        sqlSession1.close();
+        u1.setPassword("63666");
+        userMapper3.updateAnnotation(u1);
+        sqlSession3.commit();
+        //第二次查询，由于上次更新操作，缓存数据已经清空(防止数据脏读)，这里必须再次发出sql
+        User u2 = userMapper2.findByIdAnnotation(1);
+        System.out.println(u2);
+        sqlSession2.close();
+    }
+
+    @Test
+    public void testTwoCache(){
+        //根据 sqlSessionFactory 产生 session
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        SqlSession sqlSession2 = sqlSessionFactory.openSession();
+        UserMapper userMapper1 = sqlSession1.getMapper(UserMapper.class);
+        UserMapper userMapper2 = sqlSession2.getMapper(UserMapper.class);
+        // 第一次查询， 发出sql语句， 并将查询的结果放入缓存中
+        User u1 = userMapper1.findByIdAnnotation(1);
+        System.out.println(u1);
+        sqlSession1.close();
+        //第二次查询，即使sqlSession1已经关闭了，这次依然不发出sql语句
+        User u2 = userMapper2.findByIdAnnotation(1);
+        System.out.println(u2);
+        sqlSession2.close();
     }
 
     @Test
