@@ -9,6 +9,17 @@ public class User {
     private String password;
     private LocalDateTime birthday;
     private List<Order> orderList;
+    private List<Role> roleList;
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+
 
     public List<Order> getOrderList() {
         return orderList;
@@ -34,6 +45,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", birthday=" + birthday +
                 ", orderList=" + orderList +
+                ", roleList=" + roleList +
                 '}';
     }
 
