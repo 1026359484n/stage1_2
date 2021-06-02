@@ -31,15 +31,15 @@
         password `password`
         from user
     </sql>
-    <insert id="insert" parameterType="com.lagou.domain.User">
+   <!-- <insert id="insert" parameterType="com.lagou.domain.User">
         insert into user values(#{id},#{username},#{password})
-    </insert>
+    </insert>-->
     <update id="update" parameterType="com.lagou.domain.User">
         update user set username=#{username},password=#{password} where id=#{id}
     </update>
-    <delete id="delete" parameterType="java.lang.Integer">
+   <!-- <delete id="delete" parameterType="java.lang.Integer">
         delete from user where id=#{id}
-    </delete>
+    </delete>-->
     <!--<select id="findAll" resultType="com.lagou.domain.User">
         select * from user
     </select>-->
