@@ -2,12 +2,14 @@ package com.lagou.mapper;
 
 import com.lagou.domain.User;
 import org.apache.ibatis.annotations.*;
+import org.mybatis.caches.redis.RedisCache;
+import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
-@CacheNamespace(blocking = true)
-public interface UserMapper {
-    int insert(User user);
+@CacheNamespace(blocking = true,implementation = RedisCache.class)
+public interface UserMapper extends Mapper<User> {
+    //int insert(User user);
     int update(User user);
     int delete(Integer id);
     User findById(Integer id);
